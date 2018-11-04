@@ -1,0 +1,17 @@
+<h3>Nombre</h3>
+<input type="text" [(ngModel)]="nombre"><br><br>
+<h3>Apellido</h3>
+<input type="text" [(ngModel)]="apellido"><br><br>
+<h3>Sueldo</h3>
+<input type="number" [(ngModel)]="sueldo"><br><br>
+<input type="button" value="Enviar Persona" (click)="EnviarPersona()">
+<input type="button" [disabled]="cantidad>4" value="Enviar Array" (click)="CambiarArray()">
+
+
+
+
+
+
+
+
+
