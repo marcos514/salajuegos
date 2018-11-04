@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
   templateUrl: 'mail-error.html',
   styles: [`
     .example-pizza-party {
-      color: red;
+      color: white;
     }
   `],
 })
@@ -80,7 +80,7 @@ export class MailErrorComponent {}
   templateUrl: 'no-pass.html',
   styles: [`
     .example-pizza-party {
-      color: red;
+      color: white;
     }
   `],
 })

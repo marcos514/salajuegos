@@ -1,0 +1,27 @@
+<div class="midle">
+  <div class="input">
+    <mat-grid-list cols="9" rowHeight="50px" class="tateti">
+      <mat-grid-tile class="mostrar"
+      *ngFor="let tit of titulo"
+      [colspan]="tit.cols"
+      [rowspan]="tit.rows"
+      [style.background]="tit.color">
+    {{tit.text}}
+  </mat-grid-tile>
+    </mat-grid-list>
+<mat-grid-list cols="9" rowHeight="100px">
+  <mat-grid-tile class="mostrar"
+      *ngFor="let tile of tiles"
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color">
+    <button  (click)="marcar(tile.x,tile.y,tile.text)" mat-flat-button style="border:0px solid black; background-color: transparent; color:black" > {{tile.text}}</button>
+  </mat-grid-tile>
+</mat-grid-list>
+</div>
+<div class="input">
+    <div class="example-button-row">
+        <button (click)="reiniciar()" class="boton"mat-raised-button style="width: 100%; background-color:#8c00ff;color:black" >Reiniciar</button>
+    </div>
+  </div>
+</div>

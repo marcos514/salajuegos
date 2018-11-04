@@ -86,7 +86,7 @@ export class SignupComponent implements OnInit {
   templateUrl: 'falta-campos.html',
   styles: [`
     .example-pizza-party {
-      color: red;
+      color: white;
     }
   `],
 })

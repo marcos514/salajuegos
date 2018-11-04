@@ -8,13 +8,14 @@ import {MaterialsModule} from "./materials";
 import { SignupComponent,FaltaCamposComponent } from './components/user/signup/signup.component';
 import { LoginComponent,MailErrorComponent, NoPassComponent } from './components/user/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { SnakeComponent } from './components/juegos/snake/snake.component';
 import { MathComponent } from './components/juegos/math/math.component';
 import { AppRoutingModule } from "./servicios/app-routing/app-routing.module";
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ServerService } from "./servicios/server.service";
 import { ConeccionService } from "./servicios/coneccion.service";
+import { TatetiComponent,XComponent,OComponent } from './components/juegos/tateti/tateti.component';
+import { PalabrasComponent } from './components/juegos/palabras/palabras.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +23,14 @@ import { ConeccionService } from "./servicios/coneccion.service";
     SignupComponent,
     LoginComponent,
     MenuComponent,
-    SnakeComponent,
     MathComponent,
     MailErrorComponent,
     NoPassComponent,
-    FaltaCamposComponent
+    FaltaCamposComponent,
+    TatetiComponent,
+    XComponent,
+    OComponent,
+    PalabrasComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,9 @@ import { ConeccionService } from "./servicios/coneccion.service";
   entryComponents: [
     MailErrorComponent,
     NoPassComponent,
-    FaltaCamposComponent
+    FaltaCamposComponent,
+    XComponent,
+    OComponent
 ]
 })
 export class AppModule { }
