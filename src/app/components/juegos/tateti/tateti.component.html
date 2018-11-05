@@ -10,12 +10,13 @@
   </mat-grid-tile>
     </mat-grid-list>
 <mat-grid-list cols="9" rowHeight="100px">
-  <mat-grid-tile class="mostrar"
+  <mat-grid-tile class="mostrar2"
       *ngFor="let tile of tiles"
       [colspan]="tile.cols"
       [rowspan]="tile.rows"
-      [style.background]="tile.color">
-    <button  (click)="marcar(tile.x,tile.y,tile.text)" mat-flat-button style="border:0px solid black; background-color: transparent; color:black" > {{tile.text}}</button>
+      [style.background]="tile.color"
+      (click)="marcar(tile.x,tile.y,tile.text)">
+    {{tile.text}}
   </mat-grid-tile>
 </mat-grid-list>
 </div>

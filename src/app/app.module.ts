@@ -16,6 +16,9 @@ import { ServerService } from "./servicios/server.service";
 import { ConeccionService } from "./servicios/coneccion.service";
 import { TatetiComponent,XComponent,OComponent } from './components/juegos/tateti/tateti.component';
 import { PalabrasComponent } from './components/juegos/palabras/palabras.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { PuntuacionesComponent } from './puntuaciones/puntuaciones.component';
+import { SalirComponent } from './salir/salir.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { PalabrasComponent } from './components/juegos/palabras/palabras.compone
     TatetiComponent,
     XComponent,
     OComponent,
-    PalabrasComponent
+    PalabrasComponent,
+    InicioComponent,
+    PuntuacionesComponent,
+    SalirComponent
   ],
   imports: [
     BrowserModule,

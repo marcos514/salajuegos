@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       {
         this.http.LogIn(this.email,this.password).subscribe(data=>{
           console.log(data);
+          localStorage.setItem("Token",data.toString());
         },
         err=>{this.snackBar.open(err,"", {
           duration: 2000,

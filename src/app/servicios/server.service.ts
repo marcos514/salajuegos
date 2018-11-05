@@ -11,7 +11,7 @@ export class ServerService {
   constructor(private http:HttpClient) { }
   public LogIn(email,pass)
   {
-    return this.http.post("https://marcos-rey.000webhostapp.com/usuario/login",
+    return this.http.post("./../../assets/Api_Juegos/usuario/login",
     {
       mail:email,
       clave:pass
@@ -20,12 +20,26 @@ export class ServerService {
 
   public SignUp(nombre:string,apellido:string,email:string,pass:string)
   {
-    return this.http.post("http://marcos-rey.000webhostapp.com/usuario/signup",
+    return this.http.post("./../../assets/Api_Juegos/usuario/signup",
     {
         nombre:nombre,
         apellido:apellido,
         mail:email,
         clave:pass
     });
+  }
+
+  public AgregarPuntuacion(juego:string, puntuacion:string)
+  {
+    return this.http.post("./../../assets/Api_Juegos/puntuacion",
+    {
+        juego:juego,
+        puntuacion:puntuacion
+    },CONFIG);
+  }
+
+  public TomarPuntuacion()
+  {
+    return this.http.get("./../../assets/Api_Juegos/puntuacion",CONFIG);
   }
 }

@@ -8,7 +8,7 @@ import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   imports: [MatButtonModule, MatCheckboxModule, MatMenuModule, MatToolbarModule, MatIconModule],
-  exports: [MatButtonModule, MatCheckboxModule, MatToolbarModule, MatIconModule],
+  exports: [MatButtonModule, MatCheckboxModule,MatMenuModule, MatToolbarModule, MatIconModule],
 })
 
 @Component({

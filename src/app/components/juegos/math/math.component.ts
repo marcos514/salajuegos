@@ -31,8 +31,8 @@ export class MathComponent implements OnInit {
   generateNumbers()
   {
     this.aux=100;
-    this.N1 = Math.floor(Math.random() * 100000)-1000;
-    this.N2 = Math.floor(Math.random() * 100000)-1000;
+    this.N1 = Math.floor(Math.random() * 100);
+    this.N2 = Math.floor(Math.random() * 100);
     let oper = Math.floor(Math.random() * 4 )+1;
     switch (oper) {
       case 1:

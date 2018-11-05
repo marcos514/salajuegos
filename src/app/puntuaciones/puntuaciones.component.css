@@ -1,0 +1,24 @@
+.mat-sort-header-container {
+    align-items: center;
+    margin-right: 20px;
+  }
+
+  .mostrar{
+    font-size: 20px;
+}
+
+.midle {
+    margin: auto;
+    width: 50%;
+    border: 3px solid black;
+    padding: 10px;
+    background: whitesmoke;
+  }
+  .input {
+    margin: auto;
+    width: 25%;
+  }
+  .fill{
+      width: 95%;
+      padding: 10px;
+  }
