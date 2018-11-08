@@ -13,15 +13,23 @@ use Firebase\JWT\JWT as JWT;
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
+$config['determineRouteBeforeAppMiddleware'] = true;
 
 $app = new Slim\App(["settings" => $config]);
+
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token");
+    header("Content-Type: application/json");
 
 $app->group('/usuario', function () {
 
     $this->post('/login', function ($request, $response,$arg) 
     {  
-        $mail=($request->getHeader("mail")[0]);
-        $clave=($request->getHeader("clave")[0]);
+        $json = $request->getParsedBody();
+        $decode = json_decode($json["json"]);
+        $mail= $decode->mail;
+        $clave=$decode->clave;
 
         $usuario=new Usuario($mail,"","",$clave);
         $usuariosObtenidos=$usuario->TraerEste();
@@ -41,6 +49,12 @@ $app->group('/usuario', function () {
 
     $this->post('/signup', function ($request, $response,$arg) 
     {   
+        /*$json = $request->getParsedBody();
+        $decode = json_decode($json["json"]);
+        $mail= $decode->mail;
+        $clave=$decode->clave;
+        $nombre=$decode->nombre;
+        $apellido=$decode->apellido;*/
         $mail=($request->getHeader("mail")[0]);
         $clave=($request->getHeader("clave")[0]);
         $nombre=($request->getHeader("nombre")[0]);
@@ -57,7 +71,7 @@ $app->group('/usuario', function () {
                 return $response->withJson($ret,200);
             }
             $ret->token="Error";
-            return $response->withJson($ret,200);   
+            return $response->withJson($ret,404);   
         }
         catch(Exception $e)
         {
@@ -65,32 +79,8 @@ $app->group('/usuario', function () {
 
         }
     });
-    $this->post('/borrar', function ($request, $response,$arg) 
-    {   
-        $token=($request->getHeader("token")[0]);
-        $clave=($request->getHeader("clave")[0]);
-        try
-        {
-            $todo = JWT::decode($token, "clave", array('HS256'));
-            
-            $usuario=new Usuario($todo->mail);
-            if($usuario->Borrar()>0)
-            {
-                $ret->token=;
-                return $response->withJson("Borrado",200);
-            }
-            return $response->withJson("Error",200);   
-        }
-        catch(Exception $e)
-        {
-            return $response->withJson("Error",200);
-
-        }
-        
-        
-        
-    });
-     
+    
+    
 });
 
 
@@ -99,9 +89,11 @@ $app->group('/puntuacion', function () {
 
     $this->post('[/]', function ($request, $response) 
     {   
+        $json = $request->getParsedBody();
+        $decode = json_decode($json["json"]);
+        $juego= $decode->juego;
+        $puntuacion=$decode->puntuacion;
         $token=($request->getHeader("token")[0]);
-        $juego=($request->getHeader("juego")[0]);
-        $puntuacion=($request->getHeader("puntuacion")[0]);
 
         try
         {

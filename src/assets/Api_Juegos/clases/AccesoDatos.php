@@ -7,7 +7,7 @@ class AccesoDatos
     private function __construct()
     {
         try { 
-            $this->objetoPDO = new PDO('mysql:host=localhost;dbname=id6888241_sala_juegos;charset=utf8', 'id6888241_marmarreyer', '');
+            $this->objetoPDO = new PDO('mysql:host=localhost;dbname=juegos;charset=utf8', 'root', '');
             } 
         catch (PDOException $e) { 
             print "Error!: " . $e->getMessage(); 

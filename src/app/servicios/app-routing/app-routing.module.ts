@@ -15,6 +15,7 @@ import { ConeccionService } from "../coneccion.service";
 const rutas : Routes =[
   {path:"signup",component:SignupComponent},
   {path:"login",component:LoginComponent},
+  {path:"",component:LoginComponent},
   {path:"salir",component:SalirComponent},
   {path:"score",component:PuntuacionesComponent,canActivate:[ConeccionService]},
   {path:"tateti",component:TatetiComponent,canActivate:[ConeccionService]},
