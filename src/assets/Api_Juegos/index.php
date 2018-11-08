@@ -17,11 +17,6 @@ $config['determineRouteBeforeAppMiddleware'] = true;
 
 $app = new Slim\App(["settings" => $config]);
 
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token");
-    header("Content-Type: application/json");
-
 $app->group('/usuario', function () {
 
     $this->post('/login', function ($request, $response,$arg) 
@@ -49,29 +44,29 @@ $app->group('/usuario', function () {
 
     $this->post('/signup', function ($request, $response,$arg) 
     {   
-        /*$json = $request->getParsedBody();
-        $decode = json_decode($json["json"]);
-        $mail= $decode->mail;
-        $clave=$decode->clave;
-        $nombre=$decode->nombre;
-        $apellido=$decode->apellido;*/
-        $mail=($request->getHeader("mail")[0]);
-        $clave=($request->getHeader("clave")[0]);
-        $nombre=($request->getHeader("nombre")[0]);
-        $apellido=($request->getHeader("apellido")[0]);
+        $decode = $request->getParsedBody();
+        // $decode = json_decode($json['datos']);
+        // var_dump($decode);
+        // die();
+        // return $response->withJson($decode,200);
+        $mail= $decode["mail"];
+        $clave=$decode["clave"];
+        $nombre=$decode["nombre"];
+        $apellido=$decode["apellido"];
+        // var_dump($mail);
+        // die();
         try
         {
             $usuario=new Usuario($mail,$nombre,$apellido,$clave);
-            if($usuario->Agregar()==1)
+            // return $response->withJson($usuario->Agregar(),200);
+            if($usuario->Agregar())
             {
-
                 $array=array("mail"=>$usuario->mail,"nombre"=> $usuario->nombre,"apellido"=> $usuario->apellido);
                 $token=JWT::encode($array,"clave");
-                $ret->token=$token;
+                $ret = array('token' =>  $token);
                 return $response->withJson($ret,200);
             }
-            $ret->token="Error";
-            return $response->withJson($ret,404);   
+            return $response->withJson("Error",404);   
         }
         catch(Exception $e)
         {
