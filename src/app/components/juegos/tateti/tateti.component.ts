@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
+import { ServerService } from 'src/app/servicios/server.service';
 
 
 export interface Tile {
@@ -25,7 +26,7 @@ export interface Titulo {
 })
 export class TatetiComponent implements OnInit {
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(public snackBar: MatSnackBar,private http:ServerService) { }
   turno=true;
   tiles: Tile[];
   player_win="---";
@@ -120,6 +121,8 @@ export class TatetiComponent implements OnInit {
       for (let index = 0; index < this.ganar.length; index++) {
         if(this.MarcarArrays(this.O_winer,this.ganar[index])){
           this.player_win="0";
+          this.http.AgregarPuntuacion("TA - TE - TI", "Gano los CIRCULOS").subscribe()
+
           this.snackBar.openFromComponent(OComponent,{
             duration: 10000,
           });
@@ -131,6 +134,8 @@ export class TatetiComponent implements OnInit {
       for (let index = 0; index < this.ganar.length; index++) {
         if(this.MarcarArrays(this.X_winer,this.ganar[index])){
           this.player_win="x";
+          this.http.AgregarPuntuacion("TA - TE - TI", "Gano los Cuadrados").subscribe()
+
           this.snackBar.openFromComponent(XComponent,{
             duration: 10000,
           });

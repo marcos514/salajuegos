@@ -6,7 +6,7 @@ class Puntuacion
     private $juego;
     private $id;
     private $puntuacion;
-    public function __construct($id="",$mail="",$juego="",$puntuacion=0)
+    public function __construct($id="",$mail="",$juego="",$puntuacion="")
     {
         $this->mail=$mail;
         $this->juego=$juego;
@@ -20,7 +20,7 @@ class Puntuacion
         $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into puntuaciones (mail,juego,puntuacion)values(:mail,:juego,:puntuacion)");
         $consulta->bindValue(':mail',$this->mail,  PDO::PARAM_STR);
         $consulta->bindValue(':juego',$this->juego,  PDO::PARAM_STR);
-        $consulta->bindValue(':puntuacion',$this->puntuacion,  PDO::PARAM_INT);
+        $consulta->bindValue(':puntuacion',$this->puntuacion,  PDO::PARAM_STR);
         		
         return $consulta->execute()>0;
     }

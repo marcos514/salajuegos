@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {Sort} from '@angular/material';
 import { ServerService } from "../servicios/server.service";
 
-export interface Dessert {
-  score: string;
-  name: string;
+export interface Puntuacion {
+  id: number;
+  juego: string;
+  mail: string;
+  puntuacion: string;
 }
 @Component({
   selector: 'app-puntuaciones',
@@ -12,45 +14,42 @@ export interface Dessert {
   styleUrls: ['./puntuaciones.component.css']
 })
 export class PuntuacionesComponent implements OnInit {
-  puntuaciones = "";
+  puntuacion:Puntuacion[]=[];
+  mostrarArr:Puntuacion[]=[];
 
   constructor(private http:ServerService) {
-    this.http.TomarPuntuacion().subscribe(data=>{
-      console.log(data);
-      this.puntuaciones=data["puntuacion"];
-    },
-    err=>{console.log(err);});
-    for (let index = 0; index < this.puntuaciones.length; index++) {
-      this.desserts.push({"name":  this.puntuaciones[index]["juego"],"score": this.puntuaciones[index["puntuacion"]]});
-    }
-    this.sortedData = this.desserts.slice();
+    
   }
 
   ngOnInit() {
-    /*
-    hacer el for para tomar las puntuaciones
-    
-    */
+    this.http.TomarPuntuacion().subscribe(data=>{
+      console.log(data);
+      for (let index = 0; index < data["puntuacion"].length; index++) {
+        console.log(data["puntuacion"][index]);
+        this.puntuacion.push(data["puntuacion"][index]);
+      }
+    },
+    err=>{console.log(err);});
+    console.log(this.puntuacion)
+   
+    this.mostrarArr = this.puntuacion;
   }
 
 
-  desserts: Dessert[] = [];
-
-  sortedData: Dessert[];
 
 
   sortData(sort: Sort) {
-    const data = this.desserts.slice();
+    const data = this.puntuacion.slice();
     if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
+      this.mostrarArr = data;
       return;
     }
 
-    this.sortedData = data.sort((a, b) => {
+    this.mostrarArr = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
-        case 'score': return compare(a.score, b.score, isAsc);
+        case 'name': return compare(a.juego, b.juego, isAsc);
+        case 'score': return compare(a.puntuacion, b.puntuacion, isAsc);
         default: return 0;
       }
     });

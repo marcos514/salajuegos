@@ -22,9 +22,8 @@ $app->group('/usuario', function () {
     $this->post('/login', function ($request, $response,$arg) 
     {  
         $json = $request->getParsedBody();
-        $decode = json_decode($json["json"]);
-        $mail= $decode->mail;
-        $clave=$decode->clave;
+        $mail= $json["mail"];
+        $clave=$json["clave"];
 
         $usuario=new Usuario($mail,"","",$clave);
         $usuariosObtenidos=$usuario->TraerEste();
@@ -85,10 +84,9 @@ $app->group('/puntuacion', function () {
     $this->post('[/]', function ($request, $response) 
     {   
         $json = $request->getParsedBody();
-        $decode = json_decode($json["json"]);
-        $juego= $decode->juego;
-        $puntuacion=$decode->puntuacion;
-        $token=($request->getHeader("token")[0]);
+        $juego= $json["juego"];
+        $puntuacion=$json["puntuacion"];
+        $token=($request->getHeader("token"))[0];
 
         try
         {
@@ -96,11 +94,9 @@ $app->group('/puntuacion', function () {
             $puntuacion=new Puntuacion("",$todo->mail,$juego,$puntuacion);
             if($puntuacion->Agregar()>0)
             {
-                $ret->agregado=true;
-                return $response->withJson($ret,200);
+                return $response->withJson(true,200);
             }
-            $ret->agregado=false;
-            return $response->withJson($ret,404);   
+            return $response->withJson(false,404);   
         }
         catch(Exception $e)
         {
@@ -120,7 +116,8 @@ $app->group('/puntuacion', function () {
         try
         {         
             $todo= JWT::decode($token,"clave",array('HS256'));        
-            $puntuacion = new Puntuacion("",$todo->mail,"","");      
+            $puntuacion = new Puntuacion("",$todo->mail);
+            $ret =new stdClass();     
             $ret->puntuacion=$puntuacion->Traer();
             return $response->withJson($ret,200);
         }

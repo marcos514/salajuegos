@@ -5,12 +5,9 @@
         <th mat-sort-header="name">Juego</th>       
         <th mat-sort-header="score">Puntuacion</th>
       </tr>
-      <tr *ngFor="let dessert of sortedData">
-        <div style="margin-right: 20px;">
-
-        <td >{{dessert.name}}</td>
-      </div>
-        <td style="margin-left: 20px;">{{dessert.score}}</td>
+      <tr *ngFor="let punt of mostrarArr">
+        <td >{{punt.juego}}</td>
+        <td >{{punt.puntuacion}}</td>
       </tr>
     </table>
   </div>

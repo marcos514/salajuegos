@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServerService } from 'src/app/servicios/server.service';
 export interface Tile {
   color: string;
   cols: number;
@@ -32,7 +33,7 @@ export class PalabrasComponent implements OnInit {
 
   aux=100;
   ganador=false
-  constructor() { }
+  constructor(private http:ServerService) { }
 
   ngOnInit() {
     this.aux=100;
@@ -69,9 +70,15 @@ export class PalabrasComponent implements OnInit {
       {text: "PERDISTE ERA: "+this.lista[this.numero], cols: 3, rows: 1, color: 'red'}
     ]
     this.ganador=true;
+    this.http.AgregarPuntuacion("Palabra", "Perdiste: "+ this.palabra).subscribe()
+
   }
 
   Comprobar(){
+    if(this.ganador)
+    {
+      return 0
+    }
     if(this.respuesta.toLowerCase()==this.lista[this.numero]){
       this.Ganar();
       return 0;
@@ -85,6 +92,8 @@ export class PalabrasComponent implements OnInit {
       {text: "Ganaste", cols: 3, rows: 1, color: 'green'}
     ]
     this.ganador=true;
+    this.http.AgregarPuntuacion("Palabra", this.aux.toString()).subscribe()
+
 
   }
 

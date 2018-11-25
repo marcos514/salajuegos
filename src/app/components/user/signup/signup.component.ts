@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import { ServerService } from "../../../servicios/server.service";
 import { MailErrorComponent,NoPassComponent } from "../login/login.component";
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -12,7 +14,7 @@ export class SignupComponent implements OnInit {
   apellido="";
   nombre="";
   password="";
-  constructor(public snackBar: MatSnackBar,private http:ServerService) { }
+  constructor(public snackBar: MatSnackBar,private http:ServerService,private router:Router) { }
 
   ngOnInit() {
   }
@@ -43,6 +45,8 @@ export class SignupComponent implements OnInit {
     this.http.SignUp(this.nombre,this.apellido,this.email,this.password).subscribe(data=>{
       console.log(data);
       localStorage.setItem("Token",data["token"]);
+      this.router.navigate(["/inicio"]);
+
     },
     err=>{console.log(err);});
     if(localStorage.getItem("Token")){

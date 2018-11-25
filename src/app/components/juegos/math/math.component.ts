@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ServerService } from 'src/app/servicios/server.service';
 export interface Tile {
   color: string;
   cols: number;
@@ -21,7 +22,7 @@ export class MathComponent implements OnInit {
   tiles: Tile[];
   respuesta=0;
   aux=0;
-  constructor() { }
+  constructor(private http:ServerService) { }
 
   ngOnInit() {
     this.generateNumbers();
@@ -112,6 +113,9 @@ export class MathComponent implements OnInit {
       {text: "Perdiste", cols: 1, rows: 1, color: 'red'},
       {text: "Perdiste", cols: 1, rows: 1, color: 'red'}
     ];
+    this.ganador=true;
+    this.http.AgregarPuntuacion("Matematica", "Perdiste: "+this.resultado)
+
   }
 
 
@@ -125,6 +129,7 @@ export class MathComponent implements OnInit {
       {text: "Ganaste", cols: 1, rows: 1, color: 'green'}
     ];
     this.ganador=true;
+    this.http.AgregarPuntuacion("Matematica", this.aux.toString())
 /*
 
 
@@ -135,6 +140,10 @@ export class MathComponent implements OnInit {
   }
 
   Comprobar(){
+    if(this.ganador)
+    {
+      return 0
+    }
     if(this.resultado == this.respuesta){
       this.Ganaste();
     }
