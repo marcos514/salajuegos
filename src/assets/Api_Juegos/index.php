@@ -26,18 +26,16 @@ $app->group('/usuario', function () {
         $clave=$json["clave"];
 
         $usuario=new Usuario($mail,"","",$clave);
-        $usuariosObtenidos=$usuario->TraerEste();
-        if($usuariosObtenidos>0)
+        if($usuario->TraerEste())
         {
-            $array=array("mail"=>$usuariosObtenidos["mail"],"nombre"=> $usuariosObtenidos["nombre"],"apellido"=> $usuariosObtenidos["apellido"]);
+            $array=array("mail"=>$usuario->mail);
             $token=JWT::encode($array,"clave");
-            $ret->token=$token;
+            $ret = array('token' =>  $token);
             return $response->withJson($ret,200);
         }
         else
         {
-            $ret->token="Error";
-            return $response->withJson($ret,404);
+            return $response->withJson("Errir",404);
         }  
     });
 

@@ -11,7 +11,6 @@ export class ServerService {
   constructor(private http:HttpClient) { }
   public LogIn(email,pass)
   {
-    let datos= "{'mail':"+email+",'clave':"+pass+"}";
     return this.http.post("../../assets/Api_Juegos/usuario/login",{mail:email, clave: pass});
   }
 

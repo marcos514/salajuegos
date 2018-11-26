@@ -92,7 +92,7 @@ export class PalabrasComponent implements OnInit {
       {text: "Ganaste", cols: 3, rows: 1, color: 'green'}
     ]
     this.ganador=true;
-    this.http.AgregarPuntuacion("Palabra", this.aux.toString()).subscribe()
+    this.http.AgregarPuntuacion("Palabra"," "+ this.aux).subscribe()
 
 
   }

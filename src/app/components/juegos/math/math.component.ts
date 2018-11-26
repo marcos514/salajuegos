@@ -26,6 +26,7 @@ export class MathComponent implements OnInit {
 
   ngOnInit() {
     this.generateNumbers();
+    this.ganador=false;
   }
 
 
@@ -114,7 +115,7 @@ export class MathComponent implements OnInit {
       {text: "Perdiste", cols: 1, rows: 1, color: 'red'}
     ];
     this.ganador=true;
-    this.http.AgregarPuntuacion("Matematica", "Perdiste: "+this.resultado)
+    this.http.AgregarPuntuacion("Matematica", "Perdiste: "+this.resultado).subscribe()
 
   }
 
@@ -129,7 +130,7 @@ export class MathComponent implements OnInit {
       {text: "Ganaste", cols: 1, rows: 1, color: 'green'}
     ];
     this.ganador=true;
-    this.http.AgregarPuntuacion("Matematica", this.aux.toString())
+    this.http.AgregarPuntuacion("Matematica", " "+this.aux).subscribe()
 /*
 
 
