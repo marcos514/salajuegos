@@ -9,25 +9,120 @@ const CONFIG={headers:new HttpHeaders({token:localStorage.getItem("Token")})};
 export class ServerService {
 
   constructor(private http:HttpClient) { }
-  public LogIn(email,pass)
+  public LogIn(usuario,clave)
   {
-    return this.http.post("../../assets/Api_Juegos/usuario/login",{mail:email, clave: pass});
+    return this.http.post("../../assets/Api_Juegos/usuario/login",{usuario:usuario, clave: clave});
   }
 
-  public SignUp(nombre:string,apellido:string,email:string,pass:string)
+  //Mesa api
+  public MesaAlta(id,cliente)
   {
-    let datos= "{'mail':'"+email+"','clave':'"+pass+"','nombre':'"+nombre+"','apellido':'"+apellido+"'}";
-    return this.http.post("../../assets/Api_Juegos/usuario/signup",{mail:email, clave: pass, nombre: nombre, apellido: apellido});
+    return this.http.post("../../assets/Api_Juegos/mesa/alta",{id:id, cliente: cliente},CONFIG);
+  }
+  public MesasLibres()
+  {
+    return this.http.get("../../assets/Api_Juegos/mesa/libres",CONFIG);
+  }
+  public MesasTodas()
+  {
+    return this.http.get("../../assets/Api_Juegos/mesas/todas",CONFIG);
+  }
+  public MesaClave(mesa)
+  {
+    return this.http.post("../../assets/Api_Juegos/mesas/clave",{mesa:mesa},CONFIG);
+  }
+  public MesaCerrar(mesa)
+  {
+    return this.http.post("../../assets/Api_Juegos/mesas/cerrar",{mesa:mesa},CONFIG);
+  }
+  public MesaEsperar(mesa)
+  {
+    return this.http.post("../../assets/Api_Juegos/mesas/esperarPedido",{mesa:mesa},CONFIG);
+  }
+  public MesaComiendo(mesa)
+  {
+    return this.http.post("../../assets/Api_Juegos/mesas/clienteComiendo",{mesa:mesa},CONFIG);
+  }
+  public MesaPagando(mesa)
+  {
+    return this.http.post("../../assets/Api_Juegos/mesas/clientePagando",{mesa:mesa},CONFIG);
   }
 
-  public AgregarPuntuacion(juego:string, puntuacion:string)
+//PRODUCTOS API
+  public ProductoTodas()
   {
-
-    return this.http.post("../../assets/Api_Juegos/puntuacion",{juego:juego,puntuacion:puntuacion},CONFIG);
+    return this.http.get("../../assets/Api_Juegos/productos/traerTodos",CONFIG);
+  }
+  //capaz que anulo estos 2 (BUSCAR POR LA TABLA)
+  public ProductoId(id)
+  {
+    return this.http.post("../../assets/Api_Juegos/productos/traer/id",{id:id},CONFIG);
+  }
+  public ProductoNombre(nombre)
+  {
+    return this.http.post("../../assets/Api_Juegos/productos/traer/nombre",{descripcion:nombre},CONFIG);
   }
 
-  public TomarPuntuacion()
+
+  //pedido
+  public PedidoAlta(mesa,productos)
   {
-    return this.http.get("../../assets/Api_Juegos/puntuacion",CONFIG);
+    return this.http.post("../../assets/Api_Juegos/pedido/alta",{mesa:mesa, productos: productos},CONFIG);
   }
+  public PedidoLibres()
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido/tomar/sector/libres",{},CONFIG);
+  }
+  public PedidoAceptados()
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido//tomar/aceptados", {} ,CONFIG);
+  }
+  public PedidoAceptar(finEsperado,pedidos)
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido/aceptar",{pedidos:pedidos,finEsperado:finEsperado},CONFIG);
+  }
+  public PedidoPagar(pedidos)
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido/pagar",{pedidos:pedidos},CONFIG);
+  }
+  public PedidoTerminar(pedidos)
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido/terminar",{pedidos:pedidos},CONFIG);
+  }
+  public PedidoMios()
+  {
+    //MOZO
+    return this.http.get("../../assets/Api_Juegos/pedido/mios",CONFIG);
+  }
+  public PedidoCliente(mesa,pedido)
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido/cliente",{mesa:mesa,pedido:pedido},CONFIG);
+  }
+
+
+  public Factura(mesa)
+  {
+    return this.http.post("../../assets/Api_Juegos/factura/generar",{mesa:mesa},CONFIG);
+  }
+  public Encuesta(mesa,mozo, restaurant,cocinero,comentario, idMesa, idMozo)
+  {
+    return this.http.post("../../assets/Api_Juegos/pedido/cliente",{mesa:mesa,mozo:mozo, restaurant:restaurant,cocinero:cocinero,comentario:comentario, idMesa:idMesa, idMozo:idMozo},CONFIG);
+  }
+
+  // public SignUp(nombre:string,apellido:string,email:string,pass:string)
+  // {
+  //   let datos= "{'mail':'"+email+"','clave':'"+pass+"','nombre':'"+nombre+"','apellido':'"+apellido+"'}";
+  //   return this.http.post("../../assets/Api_Juegos/usuario/signup",{mail:email, clave: pass, nombre: nombre, apellido: apellido});
+  // }
+
+  // public AgregarPuntuacion(juego:string, puntuacion:string)
+  // {
+
+  //   return this.http.post("../../assets/Api_Juegos/puntuacion",{juego:juego,puntuacion:puntuacion},CONFIG);
+  // }
+
+  // public TomarPuntuacion()
+  // {
+  //   return this.http.get("../../assets/Api_Juegos/puntuacion",CONFIG);
+  // }
 }

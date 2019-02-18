@@ -19,6 +19,11 @@ import { PalabrasComponent } from './components/juegos/palabras/palabras.compone
 import { InicioComponent } from './inicio/inicio.component';
 import { PuntuacionesComponent } from './puntuaciones/puntuaciones.component';
 import { SalirComponent } from './salir/salir.component';
+import { MesasComponent } from './mozo/mesas/mesas.component';
+import { PedidosComponent } from './mozo/pedidos/pedidos.component';
+import { LibresComponent } from './comanda/libres/libres.component';
+import { AceptadosComponent } from './comanda/aceptados/aceptados.component';
+import { SocioComponent } from './socio/socio.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,12 @@ import { SalirComponent } from './salir/salir.component';
     PalabrasComponent,
     InicioComponent,
     PuntuacionesComponent,
-    SalirComponent
+    SalirComponent,
+    MesasComponent,
+    PedidosComponent,
+    LibresComponent,
+    AceptadosComponent,
+    SocioComponent
   ],
   imports: [
     BrowserModule,

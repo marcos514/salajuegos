@@ -67,29 +67,31 @@ class Pedido
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function TraerParaEntregar()
-    {
-        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT p.*, pp.* 
-            from pedido p
-            LEFT JOIN pedido_producto pp ON pp.pedido = p.id
-            WHERE p.estado IS NULL AND pp.hora_fin IS NOT NULL AND
-            p.mesa in :mesa
-            ");
-        $consulta->bindValue(':mesa',$this->mesa,  PDO::PARAM_STR);
-        $consulta->execute();
+    // public function TraerParaEntregar()
+    // {
+    //     $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+    //     $consulta =$objetoAccesoDato->RetornarConsulta("SELECT p.*, pp.* 
+    //         from pedido p
+    //         LEFT JOIN pedido_producto pp ON pp.pedido = p.id
+    //         WHERE p.estado IS NULL AND pp.hora_fin IS NOT NULL AND
+    //         p.mesa in :mesa
+    //         ");
+    //     $consulta->bindValue(':mesa',$this->mesa,  PDO::PARAM_STR);
+    //     $consulta->execute();
         
-		return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    }
+	// 	return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    // }
 
     public function TraerClientePedido($codigoMesa)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT p.*, pp.*
-            FROM pedido p 
-            Left Join pedido_producto pp ON pp.pedido = p.id 
-            Left Join mesa m ON m.id = p.mesa 
-            WHERE p.entregado IS NOT NULL AND p.codigo = :codigo AND m.codigo = :codigoMesa");
+        $consulta =$objetoAccesoDato->RetornarConsulta(
+            "SELECT pp.id id, pp.pedido pedido, pr.descripcion descripcion, pp.comienzo comienzo ,pp.finEsperado finEsperado
+            from pedidoproducto pp 
+            LEFT JOIN producto pr ON pr.id = pp.producto 
+            LEFT JOIN pedido p ON p.id = pp.pedido
+            LEFT JOIN mesa m ON m.id = p.mesa 
+            WHERE p.codigo = :codigo AND m.codigo = :codigoMesa and pp.fin is null");
         $consulta->bindValue(':codigo',$this->codigo,  PDO::PARAM_STR);
         $consulta->bindValue(':codigoMesa',$codigoMesa,  PDO::PARAM_STR);
         $consulta->execute();
@@ -114,7 +116,7 @@ class Pedido
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("SELECT SUM(pr.precio) as precio 
             from pedido p 
-            Left Join pedido_producto pp ON pp.pedido = p.id 
+            Left Join pedidoproducto pp ON pp.pedido = p.id 
             Left Join mesa m ON m.id = p.mesa 
             Left Join producto pr ON pr.id = pp.producto 
             WHERE p.mesa = :mesa AND pp.estado != 'pagado' ");

@@ -49,6 +49,21 @@ class PedidoProducto
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function TraerMios()
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT  pp.pedido pedido, pp.estado estado, p.codigo codigo, pr.descripcion descripcion, m.mozo mozo, m.cliente cliente, m.id
+            from pedidoproducto pp
+            LEFT JOIN producto pr ON pr.id = pp.producto
+            LEFT JOIN pedido p ON p.id = pp.pedido
+            LEFT JOIN mesa m ON m.id = p.mesa
+            WHERE  m.mozo = :mozo and p.estado is null");
+        $consulta->bindValue(':mozo',$this->comanda,  PDO::PARAM_STR);
+        $consulta->execute();
+        
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function TraerParaHacer($sector)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
@@ -107,6 +122,18 @@ class PedidoProducto
 		return $consulta->execute();
     }
 
+
+    public function Pagar()
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta(
+            "UPDATE pedidoproducto 
+            SET estado = 'pagado'
+            where id = :id");
+        $consulta->bindValue(':id',$this->id,  PDO::PARAM_STR);
+        
+		return $consulta->execute();
+    }
 }
 
 

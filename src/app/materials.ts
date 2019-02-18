@@ -10,7 +10,29 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
-  imports: [MatSortModule,MatProgressBarModule,MatSnackBarModule,MatGridListModule,MatTableModule,MatButtonModule, MatCheckboxModule, MatToolbarModule, MatIconModule,MatInputModule],
-  exports: [MatSortModule,MatProgressBarModule,MatSnackBarModule,MatGridListModule,MatTableModule,MatButtonModule, MatCheckboxModule, MatToolbarModule, MatIconModule,MatInputModule],
+  imports: [
+    MatSortModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
+    MatGridListModule,
+    MatTableModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule
+  ],
+  exports: [
+    MatSortModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
+    MatGridListModule,
+    MatTableModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule
+  ],
 })
 export class MaterialsModule { }

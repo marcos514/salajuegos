@@ -219,36 +219,6 @@ $app->group('/mesa', function () {
     return $response;
     })->add(\Usuario::class . ':verificarMozo');
     
-    // $this->post('/alta', function ($request, $response) 
-    // {   
-    //     $json = $request->getParsedBody();
-    //     $token=($request->getHeader("token"))[0];
-    //     $id='';
-    //     $codigo='';
-    //     $cliente=$json["cliente"];
-    //     $estado='';
-    //     $mozo=$json["cliente"];
-    //     try
-    //     {
-    //         $todo= JWT::decode($token,"clave",array('HS256'));
-    //         $mesa = new Mesa($id, $codigo, $cliente, $estado, $mozo);
-    //         if($mesa->AltaMesa())
-    //         {
-    //             return $response->withJson(true,200);
-    //         }
-    //         return $response->withJson(false,500);   
-    //     }
-    //     catch(Exception $e)
-    //     {
-    //         throw $e;
-
-    //     }
-    
-    // return $response;
-    // })->add(\Usuario::class . ':verificarSocio');
-            // $ret =new stdClass();     
-            // $ret->puntuacion=$puntuacion->Traer();
-            // return $response->withJson($ret,200);
 
      
 });
@@ -260,7 +230,7 @@ $app->group('/productos', function () {
         $json = $request->getParsedBody();
         // $id="",$descripcion="", $sector="",$precio=""
         $id="";
-        $descripcion==$json["descripcion"];
+        $descripcion=$json["descripcion"];
         $sector=$json["sector"];
         $precio=$json["precio"];
         
@@ -278,7 +248,7 @@ $app->group('/productos', function () {
         $json = $request->getParsedBody();
         // $id="",$descripcion="", $sector="",$precio=""
         $id=$json["id"];
-        $descripcion==$json["descripcion"];
+        $descripcion=$json["descripcion"];
         $sector=$json["sector"];
         $precio=$json["precio"];
         
@@ -299,7 +269,7 @@ $app->group('/productos', function () {
         $json = $request->getParsedBody();
         // $id="",$descripcion="", $sector="",$precio=""
         $id=$json["id"];
-        $descripcion==$json["descripcion"];
+        $descripcion=$json["descripcion"];
         $sector=$json["sector"];
         $precio=$json["precio"];
         
@@ -312,7 +282,7 @@ $app->group('/productos', function () {
     {   
         $json = $request->getParsedBody();
         $id=$json["id"];
-        $descripcion==$json["descripcion"];
+        $descripcion=$json["descripcion"];
         $sector=$json["sector"];
         $precio=$json["precio"];
         
@@ -380,7 +350,6 @@ $app->group('/pedido', function () {
 
     $this->post('/tomar/sector/libres', function ($request, $response) 
     {   
-        $json = $request->getParsedBody();
         $token=($request->getHeader("token"))[0];
 
         //bwXpx mesa 2
@@ -452,6 +421,21 @@ $app->group('/pedido', function () {
     return $response;
     })->add(\Usuario::class . ':verificarToken');
 
+    $this->post('/pagar', function ($request, $response) 
+    {   
+        $json = $request->getParsedBody();
+
+        $pedidos = explode(",",$json["pedidos"]);
+        $cantidad = 0;
+        $pp = new PedidoProducto();
+        foreach ($pedidos as $pedido) {
+            $pp->id = $pedido;
+            if($pp->Pagar()){
+                $cantidad = $cantidad +1;
+            }
+        }
+        return $response->withJson($cantidad,200);
+    })->add(\Usuario::class . ':verificarSocio');
 
 
     $this->post('/terminar', function ($request, $response) 
@@ -470,14 +454,83 @@ $app->group('/pedido', function () {
         }
         return $response->withJson($cantidad,200);
     })->add(\Usuario::class . ':verificarToken');
+
+    $this->get('/mios', function ($request, $response) 
+    {   
+        $token=($request->getHeader("token"))[0];
+
+        try
+        {
+            $todo= JWT::decode($token,"clave",array('HS256'));
+            $pp = new PedidoProducto("","","","", $todo->nombre);
+            return $response->withJson($pp->TraerMios(),200);
+        }
+        catch(Exception $e)
+        {
+            throw $e;
+
+        }
+    })->add(\Usuario::class . ':verificarMozo');
+
+    $this->post('/cliente', function ($request, $response) 
+    {   
+        $json = $request->getParsedBody();
+        $mesa = $json["mesa"];
+        $pedido = $json["pedido"];
+        $pedido = new Pedido("","", $pedido);
+        return $response->withJson($pedido->TraerClientePedido($mesa),200);
+    });
+
 });
 
 
 
 
+$app->group('/factura', function () {
+
+    $this->post('/generar', function ($request, $response) 
+    {   
+        $json = $request->getParsedBody();
+        // $id="",$descripcion="", $sector="",$precio=""
+        $mesa=$json["mesa"];
+
+        $p = new Pedido("", $mesa);
+        $total = $p->ContarPrecio();
+        $factura = new Factura("", $total[0]["precio"], $mesa);
+        if($factura->Agregar()){
+            return $response->withJson($total[0]["precio"],200);
+        }
+        return $response->withJson(false,200);
+    })->add(\Usuario::class . ':verificarSocio');
+
+    
+});
 
 
+$app->group('/encuesta', function () {
 
+    $this->post('/generar', function ($request, $response) 
+    {   
+        $json = $request->getParsedBody();
+        // $id="",$descripcion="", $sector="",$precio=""
+        $mesa=$json["mesa"];
+        $mozo=$json["mozo"];
+        $restaurant=$json["restaurant"];
+        $cocinero=$json["cocinero"];
+        $idMesa=$json["idMesa"];
+        $idMozo=$json["idMozo"];
+        $comentario=$json["comentario"];
+
+
+        $e = new Encuesta($mesa,$mozo, $restaurant,$cocinero,$comentario,$idMesa,$idMozo);
+        if($e->Agregar()){
+            return $response->withJson(true,200);
+        }
+        return $response->withJson(false,200);
+    });
+
+    
+});
 
 
 

@@ -7,7 +7,7 @@ class Factura
     public $fecha;
     public function __construct($id="",$total="",$mesa="",$fecha="")
     {
-        $this->total=$estado;
+        $this->total=$total;
         $this->mesa=$mesa;
         $this->fecha=$fecha;
         $this->id=$id;

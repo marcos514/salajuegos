@@ -13,15 +13,21 @@ import { SalirComponent} from "../../salir/salir.component";
 import { ConeccionService } from "../coneccion.service";
  
 const rutas : Routes =[
-  {path:"signup",component:SignupComponent},
+  // {path:"signup",component:SignupComponent},
   {path:"login",component:LoginComponent},
   {path:"",component:LoginComponent},
   {path:"salir",component:SalirComponent},
-  {path:"score",component:PuntuacionesComponent,canActivate:[ConeccionService]},
-  {path:"tateti",component:TatetiComponent,canActivate:[ConeccionService]},
-  {path:"palabras",component:PalabrasComponent,canActivate:[ConeccionService]},
-  {path:"math",component:MathComponent,canActivate:[ConeccionService]},
-  {path:"inicio",component:InicioComponent,canActivate:[ConeccionService]},
+  {path:"cliente",component:SalirComponent},
+  {path:"mozo/mesas",component:PuntuacionesComponent,canActivate:[ConeccionService]},
+  {path:"mozo/pedidos",component:PuntuacionesComponent,canActivate:[ConeccionService]},
+  {path:"comanda/libres",component:PuntuacionesComponent,canActivate:[ConeccionService]},
+  {path:"comanda/aceptados",component:PuntuacionesComponent,canActivate:[ConeccionService]},
+  {path:"socio",component:PuntuacionesComponent,canActivate:[ConeccionService]}
+  // {path:"score",component:PuntuacionesComponent,canActivate:[ConeccionService]},
+  // {path:"tateti",component:TatetiComponent,canActivate:[ConeccionService]},
+  // {path:"palabras",component:PalabrasComponent,canActivate:[ConeccionService]},
+  // {path:"math",component:MathComponent,canActivate:[ConeccionService]},
+  // {path:"inicio",component:InicioComponent,canActivate:[ConeccionService]},
 ];
 
 @NgModule({

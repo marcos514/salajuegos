@@ -10,19 +10,15 @@ import { ServerService } from "../../../servicios/server.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  email="";
-  password="";
+  nombre="";
+  clave="";
   constructor(public snackBar: MatSnackBar,private http:ServerService,private router:Router) {}
 
-  mailMal() {
-    /*this.snackBar.open(msn,icono, {
-      duration: 2000,
-    });*/
+  usrMal(){
     this.snackBar.openFromComponent(MailErrorComponent,{
       duration: 1000,
     });
   }
-
   noPass() {
     /*this.snackBar.open(msn,icono, {
       duration: 2000,
@@ -37,15 +33,17 @@ export class LoginComponent implements OnInit {
 
   
   Logearse(){
-    var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-    if(emailRegex.test(this.email)){
-      if (this.password) 
+    if(this.nombre){
+      if (this.clave) 
       {
-        this.http.LogIn(this.email,this.password).subscribe(data=>{
+        this.http.LogIn(this.nombre,this.clave).subscribe(data=>{
           console.log(data);
           localStorage.setItem("Token",data["token"]);
           this.router.navigate(["/inicio"]);
-       },err=>{})
+       },err=>{
+        this.usrMal();
+        this.noPass();
+       })
       } 
       else 
       {
@@ -53,7 +51,7 @@ export class LoginComponent implements OnInit {
       }
     }
     else{
-      this.mailMal();  
+      this.usrMal();  
     }
     
    }
