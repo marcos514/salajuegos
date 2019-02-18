@@ -1,18 +1,16 @@
 <?php
 use Firebase\JWT\JWT as JWT;
+include_once "AccesoDatos.php";
 
 class Usuario
 {
-    
-    public $mail;
     public $nombre;
-    public $apellido;
     public $clave;
+    public $tipo;
 
-    public function __construct($mail="",$nombre="",$apellido="",$clave="")
+    public function __construct($nombre="",$clave="",$tipo="")
     {
-        $this->apellido=$apellido;
-        $this->mail=$mail;
+        $this->tipo=$tipo;
         $this->nombre=$nombre;
         $this->clave=$clave;
     }
@@ -20,37 +18,33 @@ class Usuario
     public function Agregar()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into usuarios (mail,nombre,apellido,clave)values(:mail,:nombre,:apellido,:clave)");
-        $consulta->bindValue(':mail',$this->mail, PDO::PARAM_STR);
-        $consulta->bindValue(':apellido',$this->apellido, PDO::PARAM_STR);
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT into usuario (nombre,clave,tipo)values(:nombre,:clave,:tipo)");
         $consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':clave',$this->clave, PDO::PARAM_STR);
-
-        		
+        $consulta->bindValue(':tipo',$this->tipo, PDO::PARAM_STR);
         return $consulta->execute();
     }
 
     public function Borrar()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("
-		delete 
-		from usuarios 				
-		WHERE mail=:mail");	
-        $consulta->bindValue(':mail',$this->mail, PDO::PARAM_STR);
+		$consulta =$objetoAccesoDato->RetornarConsulta("UPDATE usuario
+            SET activo = false where nombre = :nombre"
+        );
+        $consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
 		$consulta->execute();
 		return $consulta->rowCount();
     }
     
     public function TraerEste()
 	{
-			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-            $consulta =$objetoAccesoDato->RetornarConsulta("select * from usuarios where mail=:mail and clave=:clave");
-            $consulta->bindValue(':clave',$this->clave, PDO::PARAM_STR);
-            $consulta->bindValue(':mail',$this->mail, PDO::PARAM_STR);
-            $consulta->execute();
-            // $var=$consulta->fetch(PDO::FETCH_ASSOC);
-			return $consulta->fetch(PDO::FETCH_ASSOC);
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * from usuario where nombre=:nombre and clave=:clave LIMIT 1");
+        $consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':clave',$this->clave, PDO::PARAM_STR);
+        $consulta->execute();
+        // $var=$consulta->fetch(PDO::FETCH_ASSOC);
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public function verificarToken($request, $response, $next) {
@@ -67,6 +61,42 @@ class Usuario
 
         return $next($request, $response);
     }
+
+    public function verificarMozo($request, $response, $next) {
+        $token = ($request->getHeader("token")[0]);
+        $json = '{ "Error" : "Token inválido" }';
+
+        try {
+            $todo= JWT::decode($token,"clave",array('HS256'));
+            if($todo->tipo != 'mozo'){
+                return $response->withJson(json_decode($json), 409);
+            }
+        }
+        catch(Exception $e) {
+            return $response->withJson(json_decode($json), 409);
+        }
+
+        return $next($request, $response);
+    }
+
+
+    public function verificarSocio($request, $response, $next) {
+        $token = ($request->getHeader("token")[0]);
+        $json = '{ "Error" : "Token inválido" }';
+
+        try {
+            $todo= JWT::decode($token,"clave",array('HS256'));
+            if($todo->tipo != 'socio'){
+                return $response->withJson(json_decode($json), 409);
+            }
+        }
+        catch(Exception $e) {
+            return $response->withJson(json_decode($json), 409);
+        }
+
+        return $next($request, $response);
+    }
+
 
 }
 
