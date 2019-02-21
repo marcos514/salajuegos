@@ -1,16 +1,12 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <a href="/score" mat-icon-button>
-      <mat-icon class="example-icon">score</mat-icon>
-    </a>
-    
+    <button mat-flat-button class="boton" color="primary" (click)="mover('/salir')">Cerrar</button>
     <span class="example-spacer"></span>
-    <a href="/inicio" mat-icon-button>
-    <mat-icon class="example-icon">videogame_asset</mat-icon>
-  </a>
+    <button mat-flat-button color="primary" class="boton" (click)="mover('/socio')">Socio</button>
+    <button mat-flat-button color="primary" class="boton" (click)="mover('/mozo/mesas')">Mozo</button>
+    <button mat-flat-button color="primary" class="boton" (click)="mover('/comanda/libres')">Comanda</button>
+    <button mat-flat-button color="primary" class="boton" (click)="mover('/cliente')">Cliente</button>
     <span class="example-spacer"></span>
-    <a href="/salir" mat-icon-button>
-    <mat-icon class="example-icon">exit_to_app</mat-icon>
-    </a>
+    <button mat-flat-button color="primary" class="boton" (click)="mover('/salir')">Salir</button>
   </mat-toolbar-row>
 </mat-toolbar>

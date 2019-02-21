@@ -65,7 +65,6 @@ class Usuario
     public function verificarMozo($request, $response, $next) {
         $token = ($request->getHeader("token")[0]);
         $json = '{ "Error" : "Token inválido" }';
-
         try {
             $todo= JWT::decode($token,"clave",array('HS256'));
             if($todo->tipo != 'mozo'){

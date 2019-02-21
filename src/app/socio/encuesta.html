@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Puntua el restaurant</h1>
+<div mat-dialog-content>
+  <p>Mesa</p>
+  <mat-form-field>
+    <input matInput type="number" min="0" max="10" [(ngModel)]="data.mesa">
+  </mat-form-field>
+    <p>Mozo</p>
+    <mat-form-field>
+      <input matInput type="number" min="0" max="10" [(ngModel)]="data.mozo">
+    </mat-form-field>
+    <p>Restaurant</p>
+    <mat-form-field>
+      <input matInput type="number" min="0" max="10" [(ngModel)]="data.restaurant">
+    </mat-form-field>
+    <p>Cocinero</p>
+    <mat-form-field>
+      <input matInput type="number" min="0" max="10" [(ngModel)]="data.cocinero">
+    </mat-form-field>
+    <p>Comentarios</p>
+    <mat-form-field>
+        <input matInput #coment maxlength="66" [(ngModel)]="data.comentario">
+        <mat-hint align="end">{{coment.value.length}} / 66</mat-hint>
+    </mat-form-field>
+  </div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Terminar</button>
+</div>

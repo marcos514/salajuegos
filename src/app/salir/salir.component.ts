@@ -12,7 +12,7 @@ export class SalirComponent implements OnInit {
 
   ngOnInit() {
     localStorage.setItem("Token","");
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/"]);
   }
 
 }

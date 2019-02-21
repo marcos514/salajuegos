@@ -52,12 +52,12 @@ class PedidoProducto
     public function TraerMios()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT  pp.pedido pedido, pp.estado estado, p.codigo codigo, pr.descripcion descripcion, m.mozo mozo, m.cliente cliente, m.id
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT pp.id id,  pp.pedido pedido, pp.estado estado, p.codigo codigo, pr.descripcion descripcion, m.mozo mozo, m.cliente cliente, m.id mesa
             from pedidoproducto pp
             LEFT JOIN producto pr ON pr.id = pp.producto
             LEFT JOIN pedido p ON p.id = pp.pedido
             LEFT JOIN mesa m ON m.id = p.mesa
-            WHERE  m.mozo = :mozo and p.estado is null");
+            WHERE  m.mozo = :mozo and pp.fin is not null and pp.estado!='entregado'");
         $consulta->bindValue(':mozo',$this->comanda,  PDO::PARAM_STR);
         $consulta->execute();
         
@@ -79,6 +79,24 @@ class PedidoProducto
         
 		return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+
+    public function TraerTodos()
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT pp.pedido pedido, pp.estado estado, p.codigo codigo, pr.descripcion descripcion, m.mozo mozo, m.cliente cliente, m.id mesa
+            from pedidoproducto pp 
+            LEFT JOIN producto pr ON pr.id = pp.producto 
+            LEFT JOIN pedido p ON p.id = pp.pedido
+            LEFT JOIN mesa m ON m.id = p.mesa 
+            ORDER BY pp.id desc
+        ");
+        $consulta->execute();
+        
+		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function AceptarPedido()
     {
@@ -119,7 +137,7 @@ class PedidoProducto
         $consulta->bindValue(':id',$this->id,  PDO::PARAM_STR);
         $consulta->bindValue(':fin',$this->fin,  PDO::PARAM_STR);
         
-		return $consulta->execute();
+		return $consulta->execute()>0;
     }
 
 
@@ -132,7 +150,19 @@ class PedidoProducto
             where id = :id");
         $consulta->bindValue(':id',$this->id,  PDO::PARAM_STR);
         
-		return $consulta->execute();
+		return $consulta->execute()>0;
+    }
+
+    public function Entregar()
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+        $consulta =$objetoAccesoDato->RetornarConsulta(
+            "UPDATE pedidoproducto 
+            SET estado = 'entregado'
+            where id = :id");
+        $consulta->bindValue(':id',$this->id,  PDO::PARAM_STR);
+        
+		return $consulta->execute()>0;
     }
 }
 

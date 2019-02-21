@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialsModule} from "./materials";
 import { SignupComponent,FaltaCamposComponent } from './components/user/signup/signup.component';
-import { LoginComponent,MailErrorComponent, NoPassComponent } from './components/user/login/login.component';
+import { LoginComponent,MailErrorComponent, NoPassComponent,ErrorServerComponent } from './components/user/login/login.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { MathComponent } from './components/juegos/math/math.component';
 import { AppRoutingModule } from "./servicios/app-routing/app-routing.module";
@@ -19,11 +19,14 @@ import { PalabrasComponent } from './components/juegos/palabras/palabras.compone
 import { InicioComponent } from './inicio/inicio.component';
 import { PuntuacionesComponent } from './puntuaciones/puntuaciones.component';
 import { SalirComponent } from './salir/salir.component';
-import { MesasComponent } from './mozo/mesas/mesas.component';
+import { MesasComponent, DialogOverviewExampleDialog } from './mozo/mesas/mesas.component';
 import { PedidosComponent } from './mozo/pedidos/pedidos.component';
-import { LibresComponent } from './comanda/libres/libres.component';
+import { LibresComponent,DialogOverviewHoraDialog } from './comanda/libres/libres.component';
 import { AceptadosComponent } from './comanda/aceptados/aceptados.component';
-import { SocioComponent } from './socio/socio.component';
+import { SocioComponent,FacturaDialog, EncuestaDialog } from './socio/socio.component';
+import { PedirComponent,DialogCodigo } from './mozo/pedir/pedir.component';
+import { ClienteComponent } from './cliente/cliente.component';
+import { EncuestaComponent } from './encuesta/encuesta.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,16 @@ import { SocioComponent } from './socio/socio.component';
     PedidosComponent,
     LibresComponent,
     AceptadosComponent,
-    SocioComponent
+    SocioComponent,
+    PedirComponent,
+    DialogOverviewExampleDialog,
+    DialogOverviewHoraDialog,
+    ClienteComponent,
+    ErrorServerComponent,
+    DialogCodigo,
+    FacturaDialog,
+    EncuestaComponent,
+    EncuestaDialog
   ],
   imports: [
     BrowserModule,
@@ -63,7 +75,13 @@ import { SocioComponent } from './socio/socio.component';
     NoPassComponent,
     FaltaCamposComponent,
     XComponent,
-    OComponent
+    OComponent,
+    DialogOverviewExampleDialog,
+    DialogOverviewHoraDialog,
+    ErrorServerComponent,
+    DialogCodigo,
+    FacturaDialog,
+    EncuestaDialog
 ]
 })
 export class AppModule { }

@@ -8,6 +8,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -20,7 +24,12 @@ import {MatSortModule} from '@angular/material/sort';
     MatCheckboxModule,
     MatToolbarModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatListModule
+    
   ],
   exports: [
     MatSortModule,
@@ -32,7 +41,11 @@ import {MatSortModule} from '@angular/material/sort';
     MatCheckboxModule,
     MatToolbarModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatListModule
   ],
 })
 export class MaterialsModule { }

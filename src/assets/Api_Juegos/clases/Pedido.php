@@ -26,7 +26,6 @@ class Pedido
         for($i=0; $i < 5; $i++) {
             $codigo .= $pool[mt_rand(0, count($pool) - 1)];
         }
-
         $consulta->bindValue(':mesa',$this->mesa,  PDO::PARAM_STR);
         $consulta->bindValue(':codigo',$codigo,  PDO::PARAM_STR);
         $arr = array('execute' => $consulta->execute(), 'codigo' => $codigo);

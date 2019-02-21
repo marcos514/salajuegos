@@ -11,7 +11,7 @@ export class ServerService {
   constructor(private http:HttpClient) { }
   public LogIn(usuario,clave)
   {
-    return this.http.post("../../assets/Api_Juegos/usuario/login",{usuario:usuario, clave: clave});
+    return this.http.post("../../assets/Api_Juegos/usuario/login",{nombre:usuario, clave: clave});
   }
 
   //Mesa api
@@ -25,27 +25,27 @@ export class ServerService {
   }
   public MesasTodas()
   {
-    return this.http.get("../../assets/Api_Juegos/mesas/todas",CONFIG);
+    return this.http.get("../../assets/Api_Juegos/mesa/todas",CONFIG);
   }
   public MesaClave(mesa)
   {
-    return this.http.post("../../assets/Api_Juegos/mesas/clave",{mesa:mesa},CONFIG);
+    return this.http.post("../../assets/Api_Juegos/mesa/clave",{id:mesa},CONFIG);
   }
   public MesaCerrar(mesa)
   {
-    return this.http.post("../../assets/Api_Juegos/mesas/cerrar",{mesa:mesa},CONFIG);
+    return this.http.post("../../assets/Api_Juegos/mesa/cerrar",{id:mesa},CONFIG);
   }
   public MesaEsperar(mesa)
   {
-    return this.http.post("../../assets/Api_Juegos/mesas/esperarPedido",{mesa:mesa},CONFIG);
+    return this.http.post("../../assets/Api_Juegos/mesa/esperarPedido",{id:mesa},CONFIG);
   }
   public MesaComiendo(mesa)
   {
-    return this.http.post("../../assets/Api_Juegos/mesas/clienteComiendo",{mesa:mesa},CONFIG);
+    return this.http.post("../../assets/Api_Juegos/mesa/clienteComiendo",{id:mesa},CONFIG);
   }
   public MesaPagando(mesa)
   {
-    return this.http.post("../../assets/Api_Juegos/mesas/clientePagando",{mesa:mesa},CONFIG);
+    return this.http.post("../../assets/Api_Juegos/mesa/clientePagando",{id:mesa},CONFIG);
   }
 
 //PRODUCTOS API
@@ -67,15 +67,18 @@ export class ServerService {
   //pedido
   public PedidoAlta(mesa,productos)
   {
+    console.log(productos);
+    console.log(mesa);
     return this.http.post("../../assets/Api_Juegos/pedido/alta",{mesa:mesa, productos: productos},CONFIG);
   }
   public PedidoLibres()
   {
+    console.log(CONFIG);
     return this.http.post("../../assets/Api_Juegos/pedido/tomar/sector/libres",{},CONFIG);
   }
   public PedidoAceptados()
   {
-    return this.http.post("../../assets/Api_Juegos/pedido//tomar/aceptados", {} ,CONFIG);
+    return this.http.post("../../assets/Api_Juegos/pedido/tomar/aceptados", {} ,CONFIG);
   }
   public PedidoAceptar(finEsperado,pedidos)
   {
@@ -91,6 +94,7 @@ export class ServerService {
   }
   public PedidoMios()
   {
+    console.log(CONFIG);
     //MOZO
     return this.http.get("../../assets/Api_Juegos/pedido/mios",CONFIG);
   }
@@ -106,23 +110,23 @@ export class ServerService {
   }
   public Encuesta(mesa,mozo, restaurant,cocinero,comentario, idMesa, idMozo)
   {
-    return this.http.post("../../assets/Api_Juegos/pedido/cliente",{mesa:mesa,mozo:mozo, restaurant:restaurant,cocinero:cocinero,comentario:comentario, idMesa:idMesa, idMozo:idMozo},CONFIG);
+    return this.http.post("../../assets/Api_Juegos/encuesta/generar",{mesa:mesa,mozo:mozo, restaurant:restaurant,cocinero:cocinero,comentario:comentario, idMesa:idMesa, idMozo:idMozo},CONFIG);
   }
 
-  // public SignUp(nombre:string,apellido:string,email:string,pass:string)
-  // {
-  //   let datos= "{'mail':'"+email+"','clave':'"+pass+"','nombre':'"+nombre+"','apellido':'"+apellido+"'}";
-  //   return this.http.post("../../assets/Api_Juegos/usuario/signup",{mail:email, clave: pass, nombre: nombre, apellido: apellido});
-  // }
+  public SignUp(nombre:string,apellido:string,email:string,pass:string)
+  {
+    let datos= "{'mail':'"+email+"','clave':'"+pass+"','nombre':'"+nombre+"','apellido':'"+apellido+"'}";
+    return this.http.post("../../assets/Api_Juegos/usuario/signup",{mail:email, clave: pass, nombre: nombre, apellido: apellido});
+  }
 
-  // public AgregarPuntuacion(juego:string, puntuacion:string)
-  // {
+  public AgregarPuntuacion(juego:string, puntuacion:string)
+  {
 
-  //   return this.http.post("../../assets/Api_Juegos/puntuacion",{juego:juego,puntuacion:puntuacion},CONFIG);
-  // }
+    return this.http.post("../../assets/Api_Juegos/puntuacion",{juego:juego,puntuacion:puntuacion},CONFIG);
+  }
 
-  // public TomarPuntuacion()
-  // {
-  //   return this.http.get("../../assets/Api_Juegos/puntuacion",CONFIG);
-  // }
+  public TomarPuntuacion()
+  {
+    return this.http.get("../../assets/Api_Juegos/puntuacion",CONFIG);
+  }
 }

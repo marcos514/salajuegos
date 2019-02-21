@@ -20,7 +20,7 @@ use Firebase\JWT\JWT as JWT;
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
-// $config['determineRouteBeforeAppMiddleware'] = true;
+$config['determineRouteBeforeAppMiddleware'] = true;
 
 $app = new Slim\App(["settings" => $config]);
 
@@ -160,7 +160,7 @@ $app->group('/mesa', function () {
         }
     
     return $response;
-    })->add(\Usuario::class . ':verificarToken');
+    });
 
 
 
@@ -184,7 +184,7 @@ $app->group('/mesa', function () {
         return $response->withJson($mesa->CerrarMesa(),200);
     
     return $response;
-    })->add(\Usuario::class . ':verificarSocio');
+    });
 
 
     $this->post('/esperarPedido', function ($request, $response) 
@@ -333,8 +333,7 @@ $app->group('/pedido', function () {
                         $cantidad_agregada = $cantidad_agregada + 1;
                     }
                 }
-                $arr = array('pidio' => sizeof($productos), 'codigo' => $respuesta_pedido->codigo, "agregado"=> $cantidad_agregada);
-                return $response->withJson(json_encode($arr),200);
+                return $response->withJson($respuesta_pedido->codigo,200);
             }
             return $response->withJson(false,400);
         }
@@ -396,21 +395,14 @@ $app->group('/pedido', function () {
         $json = $request->getParsedBody();
         $token=($request->getHeader("token"))[0];
 
-        $pedidos = explode(",",$json["pedidos"]);
+        $pedidos = $json["pedidos"];
         $finEsperado = $json["finEsperado"];
         try
         {
             $todo= JWT::decode($token,"clave",array('HS256'));
             $comienzo = date("o-m-d H:i:s");
-            $cantidad = 0;
-            $pp = new PedidoProducto("","","",$finEsperado, $todo->nombre, "",$comienzo);
-            foreach ($pedidos as $pedido) {
-                $pp->id = $pedido;
-                if($pp->AceptarPedido()){
-                    $cantidad = $cantidad +1;
-                }
-            }
-            return $response->withJson($cantidad,200);
+            $pp = new PedidoProducto($pedidos,"","",$finEsperado, $todo->nombre, "",$comienzo);
+            return $response->withJson($pp->AceptarPedido(),200);
         }
         catch(Exception $e)
         {
@@ -437,22 +429,31 @@ $app->group('/pedido', function () {
         return $response->withJson($cantidad,200);
     })->add(\Usuario::class . ':verificarSocio');
 
+    $this->post('/entregar', function ($request, $response) 
+    {   
+        $json = $request->getParsedBody();
+
+        $pedido = $json["pedido"];
+        $pp = new PedidoProducto($pedido);
+            if($pp->Pagar()){
+                return $response->withJson(true,200);
+            }
+            return $response->withJson(false,200);
+        });
 
     $this->post('/terminar', function ($request, $response) 
     {   
         $json = $request->getParsedBody();
 
-        $pedidos = explode(",",$json["pedidos"]);
+        $pedido = $json["pedidos"];
         $fin = date("o-m-d H:i:s");
         $cantidad = 0;
         $pp = new PedidoProducto("","","","","","","",$fin);
-        foreach ($pedidos as $pedido) {
             $pp->id = $pedido;
-            if($pp->TerminarPedido()){
-                $cantidad = $cantidad +1;
+            if($pp->TerminarPedido()>0){
+                return $response->withJson(true,200);
             }
-        }
-        return $response->withJson($cantidad,200);
+            return $response->withJson(false,200);
     })->add(\Usuario::class . ':verificarToken');
 
     $this->get('/mios', function ($request, $response) 
@@ -470,7 +471,7 @@ $app->group('/pedido', function () {
             throw $e;
 
         }
-    })->add(\Usuario::class . ':verificarMozo');
+    })->add(\Usuario::class . ':verificarToken');
 
     $this->post('/cliente', function ($request, $response) 
     {   
@@ -479,6 +480,12 @@ $app->group('/pedido', function () {
         $pedido = $json["pedido"];
         $pedido = new Pedido("","", $pedido);
         return $response->withJson($pedido->TraerClientePedido($mesa),200);
+    });
+
+    $this->get('/todo', function ($request, $response) 
+    {   
+        $pedido = new PedidoProducto();
+        return $response->withJson($pedido->TraerTodos(),200);
     });
 
 });
